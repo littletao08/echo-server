@@ -55,20 +55,20 @@ jobs:
           target: ${{ matrix.platform.target }}
           args: "--release"
           strip: true
-      - name: 'Login to GitHub Container Registry'
-        if: matrix.platform.target == 'x86_64-unknown-linux-gnu'
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{github.actor}}
-          password: ${{secrets.GITHUB_TOKEN}}
-      - name: Build the docker image
-        if: matrix.platform.target == 'x86_64-unknown-linux-gnu'
-        run: |-
-          cp target/${{ matrix.platform.target }}/release/${{ matrix.platform.bin }} ./docker/echo-server
-          cd docker/
-          docker build -t ghcr.io/lsk569937453/echo-server:${{ github.ref_name }} .
-          docker push ghcr.io/lsk569937453/echo-server:${{ github.ref_name }}
+      # - name: 'Login to GitHub Container Registry'
+      #   if: matrix.platform.target == 'x86_64-unknown-linux-gnu'
+      #   uses: docker/login-action@v1
+      #   with:
+      #     registry: ghcr.io
+      #     username: ${{github.actor}}
+      #     password: ${{secrets.GITHUB_TOKEN}}
+      # - name: Build the docker image
+      #   if: matrix.platform.target == 'x86_64-unknown-linux-gnu'
+      #   run: |-
+      #     cp target/${{ matrix.platform.target }}/release/${{ matrix.platform.bin }} ./docker/echo-server
+      #     cd docker/
+      #     docker build -t ghcr.io/lsk569937453/echo-server:${{ github.ref_name }} .
+      #     docker push ghcr.io/lsk569937453/echo-server:${{ github.ref_name }}
 
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
